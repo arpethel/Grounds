@@ -11,6 +11,12 @@ using WebApplication1.Models;
 
 namespace WebApplication1.Controllers
 {
+    /// <summary>
+    /// Start here
+    /// https://docs.microsoft.com/en-us/graph/sdks/create-requests?tabs=CS
+    /// https://docs.microsoft.com/en-us/graph/api/resources/onenote-api-overview?view=graph-rest-1.0
+    /// https://docs.microsoft.com/en-us/graph/integrate-with-onenote
+    /// </summary>
     [Authorize]
     public class QueryController : Controller
     {
