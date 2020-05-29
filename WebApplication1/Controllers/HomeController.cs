@@ -22,7 +22,19 @@ namespace WebApplication1.Controllers
 
         public IActionResult Index()
         {
-            return View();
+            MongoCRUD db = new MongoCRUD("Resources");
+//            db.InsertRecord("Resources", new Resource { ResourceTitle = "Stack Overflow", ResourceDescription = "This is stack overflow test", Uri = "www.stackoverflow.com", UpVote = 10, DownVote = 10 });
+            var resources = db.LoadResources<Resource>("Resources");
+            _logger.Log(LogLevel.Information, "Loading resources");
+            foreach (var item in resources)
+            {
+                _logger.Log(LogLevel.Information, item.ResourceTitle);
+            }
+            
+/*            ViewData["Resources"] = resources;
+            ViewData["NumTimes"] = 1;*/
+
+            return View(resources);
         }
 
         public IActionResult Privacy()
