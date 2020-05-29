@@ -1,4 +1,6 @@
-﻿@{
+﻿@model IEnumerable<WebApplication1.Models.Resource>;
+
+@{
     ViewData["Title"] = "Home Page";
 }
 
@@ -68,6 +70,12 @@
         </div>
         <div class="row">
             <!--display resources here-->
+            <ul>
+                @foreach (var item in Model)
+                {
+                <li>@Html.DisplayFor(modelItem => item.ResourceTitle)</li>
+                }
+            </ul>
         </div>
     </div>
 </div>
