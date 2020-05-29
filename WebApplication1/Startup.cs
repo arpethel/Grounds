@@ -63,10 +63,20 @@ namespace WebApplication1
 
             app.UseEndpoints(endpoints =>
             {
-                endpoints.MapControllerRoute(
-                    name: "default",
-                    pattern: "{controller=Home}/{action=Index}/{id?}");
-                endpoints.MapRazorPages();
+                endpoints.MapDefaultControllerRoute();
+                // replaces the following code
+
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller=Home}/{action=Index}/{id?}");
+                //endpoints.MapRazorPages();
+
+                // don't think i need to write this
+                //endpoints.MapControllerRoute(
+                //    name: "default",
+                //    pattern: "{controller=Query}/{action=Search}/{id?}");
+                //endpoints.MapRazorPages();
+
             });
         }
     }
