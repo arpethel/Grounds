@@ -36,6 +36,26 @@ namespace WebApplication1
         public Guid Id { get; set; }
         public string ResourceTitle { get; set; }
         public string ResourceDescription { get; set; }
+        public string Uri { get; set; }
+        public int UpVote { get; set; }
+        public int DownVote { get; set; }
+
+        public void HandleUpVote()
+        {
+            UpVote++;
+        }
+        public void HandleDownVote()
+        {
+            DownVote--;
+        }
+
+    }
+
+    public class User
+    {   [BsonId]
+        public Guid Id { get; set; }
+        public string FirstName { get; set; }
+        public string LastName { get; set; }
     }
 
     public class MongoCRUD
