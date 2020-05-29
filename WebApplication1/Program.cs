@@ -10,6 +10,7 @@ using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
 
+
 namespace WebApplication1
 {
     public class Program
@@ -17,8 +18,8 @@ namespace WebApplication1
         public static void Main(string[] args)
         {
             MongoCRUD db = new MongoCRUD("Resources");
-            //db.InsertRecord("Resources", new ResourceModel { ResourceTitle = "Title", ResourceDescription = "Test description" });
-            var resources = db.LoadResources<ResourceModel>("Item");
+           db.InsertRecord("Resources", new ResourceModel { ResourceTitle = "Stack Overflow", ResourceDescription = "This is stack overflow", Uri = "www.stackoverflow.com", UpVote = 10, DownVote = 10 });
+            var resources = db.LoadResources<ResourceModel>("Resource");
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -51,7 +52,7 @@ namespace WebApplication1
 
     }
 
-    public class User
+    public class UserModel
     {   [BsonId]
         public Guid Id { get; set; }
         public string FirstName { get; set; }
@@ -68,7 +69,7 @@ namespace WebApplication1
             db = client.GetDatabase(database);
         }
 
-        public void InsertResource<T>(string table, T resource)
+        public void InsertRecord<T>(string table, T resource)
         {
             var collection = db.GetCollection<T>(table);
             collection.InsertOne(resource);
