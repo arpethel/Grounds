@@ -5,6 +5,7 @@ using Microsoft.Extensions.Hosting;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
+using WebApplication1.Models;
 
 namespace WebApplication1
 {
@@ -13,8 +14,8 @@ namespace WebApplication1
         public static void Main(string[] args)
         {
             MongoCRUD db = new MongoCRUD("Resources");
-            //db.InsertRecord("Resources", new ResourceModel { ResourceTitle = "Title", ResourceDescription = "Test description" });
-            var resources = db.LoadResources<ResourceModel>("Item");
+           db.InsertRecord("Resources", new Resource { ResourceTitle = "Stack Overflow", ResourceDescription = "This is stack overflow test", Uri = "www.stackoverflow.com", UpVote = 10, DownVote = 10 });
+            var resources = db.LoadResources<Resource>("Resource");
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -24,34 +25,6 @@ namespace WebApplication1
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-    }
-
-    public class ResourceModel
-    {
-        [BsonId]
-        public Guid Id { get; set; }
-        public string ResourceTitle { get; set; }
-        public string ResourceDescription { get; set; }
-        public string Uri { get; set; }
-        public int UpVote { get; set; }
-        public int DownVote { get; set; }
-
-        public void HandleUpVote()
-        {
-            UpVote++;
-        }
-        public void HandleDownVote()
-        {
-            DownVote--;
-        }
-
-    }
-
-    public class User
-    {   [BsonId]
-        public Guid Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
     }
 
     public class MongoCRUD
@@ -64,7 +37,7 @@ namespace WebApplication1
             db = client.GetDatabase(database);
         }
 
-        public void InsertResource<T>(string table, T resource)
+        public void InsertRecord<T>(string table, T resource)
         {
             var collection = db.GetCollection<T>(table);
             collection.InsertOne(resource);
