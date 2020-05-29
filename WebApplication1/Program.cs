@@ -9,7 +9,7 @@ using Microsoft.Extensions.Logging;
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 using MongoDB.Driver;
-
+using WebApplication1.Models;
 
 namespace WebApplication1
 {
@@ -18,8 +18,8 @@ namespace WebApplication1
         public static void Main(string[] args)
         {
             MongoCRUD db = new MongoCRUD("Resources");
-           db.InsertRecord("Resources", new ResourceModel { ResourceTitle = "Stack Overflow", ResourceDescription = "This is stack overflow", Uri = "www.stackoverflow.com", UpVote = 10, DownVote = 10 });
-            var resources = db.LoadResources<ResourceModel>("Resource");
+           db.InsertRecord("Resources", new Resource { ResourceTitle = "Stack Overflow", ResourceDescription = "This is stack overflow test", Uri = "www.stackoverflow.com", UpVote = 10, DownVote = 10 });
+            var resources = db.LoadResources<Resource>("Resource");
             CreateHostBuilder(args).Build().Run();
         }
 
@@ -29,34 +29,6 @@ namespace WebApplication1
                 {
                     webBuilder.UseStartup<Startup>();
                 });
-    }
-
-    public class ResourceModel
-    {
-        [BsonId]
-        public Guid Id { get; set; }
-        public string ResourceTitle { get; set; }
-        public string ResourceDescription { get; set; }
-        public string Uri { get; set; }
-        public int UpVote { get; set; }
-        public int DownVote { get; set; }
-
-        public void HandleUpVote()
-        {
-            UpVote++;
-        }
-        public void HandleDownVote()
-        {
-            DownVote--;
-        }
-
-    }
-
-    public class UserModel
-    {   [BsonId]
-        public Guid Id { get; set; }
-        public string FirstName { get; set; }
-        public string LastName { get; set; }
     }
 
     public class MongoCRUD
