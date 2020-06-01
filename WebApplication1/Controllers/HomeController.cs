@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
 using WebApplication1.Models;
+using WebApplication1.Services;
 
 namespace WebApplication1.Controllers
 {
@@ -11,26 +12,55 @@ namespace WebApplication1.Controllers
     {
         private readonly ILogger<HomeController> _logger;
 
-        public HomeController(ILogger<HomeController> logger)
+        private readonly ResourceService _resourceService;
+
+        public HomeController(ILogger<HomeController> logger, ResourceService resourceService)
         {
             _logger = logger;
+            _resourceService = resourceService;
         }
 
         public IActionResult Index()
         {
-            MongoCRUD db = new MongoCRUD("Resources");
-//            db.InsertRecord("Resources", new Resource { ResourceTitle = "Stack Overflow", ResourceDescription = "This is stack overflow test", Uri = "www.stackoverflow.com", UpVote = 10, DownVote = 10 });
-            var resources = db.LoadResources<Resource>("Resources");
+            var resources = _resourceService.Get();
             _logger.Log(LogLevel.Information, "Loading resources");
-            foreach (var item in resources)
-            {
-                _logger.Log(LogLevel.Information, item.ResourceTitle);
-            }
-            
-/*            ViewData["Resources"] = resources;
-            ViewData["NumTimes"] = 1;*/
 
             return View(resources);
+        }
+
+
+        [HttpGet("{id:length(24)}", Name = "GetResource")]
+        public ActionResult<Resource> Get(string id)
+        {
+            var resource = _resourceService.Get(id);
+
+            if (resource == null)
+            {
+                return NotFound();
+            }
+
+            return resource;
+        }
+
+        // POST: Resource/Create
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult<Resource> Create(Resource resource)
+        {
+            try
+            {
+                if (resource == null){
+                    resource = new Resource { ResourceTitle = "Test Overflow", ResourceDescription = "This is Create test", Uri = "www.testoverflow.com", UpVote = 11, DownVote = 10 };
+                }
+                // TODO: Add insert logic here
+                _resourceService.Create(resource);
+
+                return CreatedAtRoute("GetResource", new { id = resource.Id.ToString() }, resource);
+            }
+            catch
+            {
+                return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            }
         }
 
         public IActionResult Privacy()
