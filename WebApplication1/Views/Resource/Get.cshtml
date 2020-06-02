@@ -1,0 +1,17 @@
+﻿@model WebApplication1.Models.Resource;
+@{
+    ViewData["Title"] = "Get";
+}
+
+<h1>@Html.DisplayFor(modelItem => Model.ResourceTitle)</h1>
+
+<div class="row card" style="overflow:scroll; height: 700px">
+    <!--display resources here-->
+    <ul class="list-group list-group-flush">
+            <li class="list-group-item">
+                <h3>@Html.DisplayFor(modelItem => Model.ResourceTitle)</h3>
+                <I>@Html.DisplayFor(modelItem => Model.Id)</I>
+                <p>@Html.DisplayFor(modelItem => Model.ResourceDescription)</p>
+            </li>
+    </ul>
+</div>

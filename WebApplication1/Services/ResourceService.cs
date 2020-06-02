@@ -17,13 +17,16 @@ namespace WebApplication1.Services
             var database = client.GetDatabase(settings.DatabaseName);
 
             _resources = database.GetCollection<Resource>(settings.ResourceCollectionName);
+
+            //var resource = new Resource { ResourceTitle = "Test Overflow", ResourceDescription = "This is Create test", Uri = "www.testoverflow.com", UpVote = 11, DownVote = 10 };
+           // _resources.InsertOne(resource);
         }
 
         public List<Resource> Get() =>
             _resources.Find(resource => true).ToList();
 
         public Resource Get(string id) =>
-            _resources.Find<Resource>(resource => resource.Id.ToString() == id).FirstOrDefault();
+            _resources.Find<Resource>(resource => resource.Id == Guid.Parse(id)).FirstOrDefault();
 
         public Resource Create(Resource resource)
         {
