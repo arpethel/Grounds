@@ -7,6 +7,9 @@ using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using WebApplication1.Models;
+using WebApplication1.Services;
 
 namespace WebApplication1
 {
@@ -22,6 +25,15 @@ namespace WebApplication1
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // requires using Microsoft.Extensions.Options
+            services.Configure<ResourceDatabaseSettings>(
+                Configuration.GetSection(nameof(ResourceDatabaseSettings)));
+
+            services.AddSingleton<IResourceDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<ResourceDatabaseSettings>>().Value);
+
+            services.AddSingleton<ResourceService>();
+
             services.AddAuthentication(AzureADDefaults.AuthenticationScheme)
                 .AddAzureAD(options => Configuration.Bind("AzureAd", options));
 
@@ -58,6 +70,7 @@ namespace WebApplication1
 
             app.UseEndpoints(endpoints =>
             {
+                //endpoints.MapControllers();
                 endpoints.MapDefaultControllerRoute();
                 // replaces the following code
 

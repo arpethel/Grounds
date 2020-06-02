@@ -85,12 +85,12 @@
                 </div>
                 <div class="row my-5">
                     <h1 class="display-4 mr-auto">Your Team's Resources</h1>
-                    <form class="form-inline my-2 my-lg-0">
-                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+                    <form class="form-inline my-2 my-lg-0" action="/resource", method="get">
+                        <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search" id="id" name="id">
                         <button class="btn btn-outline-info my-2 my-sm-0" type="submit">Search</button>
                     </form>
-                    <form class="form-inline my-2 my-lg-0">
-                        <button class="btn btn-info form-inline mx-2 font-weight-bold" type="button">Add resource</button>
+                    <form class="form-inline my-2 my-lg-0" action="/resource/create" method="post">
+                        <button class="btn btn-info form-inline mx-2 font-weight-bold" type="submit">Add resource</button>
                     </form>
                 </div>
             </div>
